@@ -68,7 +68,17 @@ var RootCmd = &cobra.Command{
 	Short: "urltrace allows a user to trace a URL's redirects",
 	Long: `urltrace is designed to allow a user to trace the redirect path of a
 URL and record that so that they can identify any URLs which are necessary to
-reach a given URL. The command may be used like so:`,
+reach a given URL. The command may be used like so:
+
+urltrace http://www.google.com/mail
+
+urltrace --timeout 15 http://www.google.com/mail
+
+urltrace -t 15 http://www.google.com/mail
+
+urltrace --timeout 15 --full-url http://www.google.com/mail
+
+urltrace -t 15 -f http://www.google.com/mail`,
 	Run: func(cmd *cobra.Command, args []string) {
 		log.SetPrefix("[URL Tracer] ")
 
