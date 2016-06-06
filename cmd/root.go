@@ -16,11 +16,12 @@ package cmd
 
 import (
 	"fmt"
+	"io"
 	"log"
 	"net/http"
+	"net/url"
 	"os"
 	"strconv"
-	"strings"
 	"time"
 
 	"github.com/spf13/cobra"
@@ -96,12 +97,26 @@ urltrace -t 15 -f http://www.google.com/mail`,
 
 		client := &http.Client{
 			Transport: t,
-			Timeout:   timeoutDuration * time.Second,
+			Timeout:   timeoutDuration,
 		}
 
-		_, err = client.Get(strings.Join(args, ""))
-		if err != nil {
-			log.Panicln(err)
+		for _, urlString := range args {
+			parsedURL, err := url.Parse(urlString)
+			if parsedURL.Scheme == "" {
+				parsedURL.Scheme = "http"
+			}
+
+			if err != nil {
+				log.Printf("Error parsing URL: %s; Error: %s.", urlString, err.Error())
+				continue
+			}
+
+			_, err = client.Get(parsedURL.String())
+			if err == io.EOF {
+				log.Printf("Site could not be reached. %s", err.Error())
+			} else if err != nil {
+				log.Printf("Error when searching for URL: %s; Error: %s", parsedURL.String(), err.Error())
+			}
 		}
 	},
 }

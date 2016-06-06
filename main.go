@@ -14,7 +14,7 @@
 
 package main
 
-import "github.com/kkirsche/URLTracer/cmd"
+import "github.com/kkirsche/urltrace/cmd"
 
 func main() {
 	cmd.Execute()
