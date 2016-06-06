@@ -41,7 +41,8 @@ type TransportWrapper struct {
 // RoundTrip executes a single HTTP transaction, returning
 // a Response for the provided Request.
 func (t *TransportWrapper) RoundTrip(req *http.Request) (*http.Response, error) {
-	// Use the default transport we set
+	// Use the default transport for this function, we only want to do this for
+	// logging purposes, not adjusting the transport itself.
 	transport := t.Transport
 
 	if transport == nil {
