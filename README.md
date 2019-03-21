@@ -8,7 +8,7 @@ In the bin directory there are precompiled binaries for linux and Darwin (OS X) 
 ```
 go get -u github.com/kkirsche/urltrace
 cd $GOPATH/src/github.com/kkirsche/urltrace
-go install -race
+go install
 ```
 
 ## Usage

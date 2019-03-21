@@ -84,12 +84,11 @@ urltrace -t 15 -f http://www.google.com/mail`,
 	Run: func(cmd *cobra.Command, args []string) {
 		log.SetPrefix("[URL Tracer] ")
 
-		log.Println("Creating Transport Wrapper")
 		t := &TransportWrapper{
 			Transport: http.DefaultTransport.(*http.Transport),
 		}
 
-		log.Printf("Creating HTTP Client with %d second timeout\n", timeout)
+		log.Printf("creating HTTP client with %d second timeout\n", timeout)
 		timeoutString := strconv.Itoa(timeout)
 		timeoutDuration, err := time.ParseDuration(timeoutString + "s")
 		if err != nil {
@@ -103,20 +102,20 @@ urltrace -t 15 -f http://www.google.com/mail`,
 
 		for _, urlString := range args {
 			parsedURL, err := url.Parse(urlString)
+			if err != nil {
+				log.Printf("error parsing URL: %s.", err.Error())
+				continue
+			}
+
 			if parsedURL.Scheme == "" {
 				parsedURL.Scheme = "http"
 			}
 
-			if err != nil {
-				log.Printf("Error parsing URL: %s; Error: %s.", urlString, err.Error())
-				continue
-			}
-
 			_, err = client.Get(parsedURL.String())
 			if err == io.EOF {
-				log.Printf("Site could not be reached. %s", err.Error())
+				log.Printf("site could not be reached. %s", err.Error())
 			} else if err != nil {
-				log.Printf("Error when searching for URL: %s; Error: %s", parsedURL.String(), err.Error())
+				log.Printf("error when searching for URL: %s", err.Error())
 			}
 		}
 	},
