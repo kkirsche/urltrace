@@ -3,8 +3,8 @@ Traces and prints the redirect path of a URL
 
 ## Installation
 
-In the bin directory there are precompiled binaries for linux and Darwin (OS X) systems. If you prefer, you can also build it yourself with the following command:
 
+### Source
 ```
 go get -u github.com/kkirsche/urltrace
 cd $GOPATH/src/github.com/kkirsche/urltrace
